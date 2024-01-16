@@ -1,11 +1,11 @@
-import React, { useRef, useContext } from "react";
+import React, { useContext } from "react";
 import useList from "../../hooks/useList";
-import { FixedSizeList as VList } from "react-window";
+import List from "../../components/List";
 import { AppContext } from "../../providers/AppContextProvider";
 
-const Row = ({ index, style }) => {
-  const { data } = useList();
-  const { setBasketItem, basketItem } = useContext(AppContext);
+const BetList = () => {
+  const { data, isLoading } = useList();
+  const { basketItem, setBasketItem } = useContext(AppContext);
 
   const handleClick = (id) => {
     if (basketItem.includes(id)) {
@@ -16,36 +16,13 @@ const Row = ({ index, style }) => {
   };
 
   return (
-    <div
-      style={style}
-      className={`cursor-pointer border-b border-gray-300 flex justify-center items-center ${
-        basketItem.includes(data[index].NID) && "bg-gray-200"
-      }`}
-      onClick={() => handleClick(data[index].NID)}
-    >
-      {data[index].NID}
-    </div>
-  );
-};
-
-const BetList = () => {
-  const containerRef = useRef();
-  const { data, isLoading } = useList();
-
-  return (
-    <div ref={containerRef} className="h-screen w-screen relative">
-      {isLoading && <div>Loading...</div>}
-      {data && (
-        <VList
-          itemCount={data.length}
-          itemSize={35}
-          height={containerRef.current.clientHeight || 600}
-          width={containerRef.current.clientWidth || 900}
-        >
-          {Row}
-        </VList>
-      )}
-    </div>
+    <List data={data} isLoading={isLoading}>
+        <List.ListItem
+          onClick={(dataIndex) => handleClick(data[dataIndex]?.NID)}
+          dataKey="NID"
+          isSelected={(dataIndex) => basketItem.includes(data[dataIndex]?.NID)}
+        />
+    </List>
   );
 };
 
