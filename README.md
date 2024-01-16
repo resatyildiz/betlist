@@ -1,10 +1,7 @@
 
-# Nesine Case
+# BetList
 
-Bu proje Nesine tarafından tarafıma gönderilen case study çalışmasını içermektedir. 
-
-
-
+Bu proje Nesine tarafından sunulan veriler ile listelenen bir bahis listesini içermektedir.
 
 
 
