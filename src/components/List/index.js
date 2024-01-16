@@ -10,7 +10,7 @@ const List = ({ data, isLoading, children }) => {
       {data && (
         <VList
           itemCount={data.length}
-          itemSize={35}
+          itemSize={50}
           height={containerRef.current.clientHeight || 600}
           width={containerRef.current.clientWidth || 900}
         >
@@ -27,19 +27,31 @@ const List = ({ data, isLoading, children }) => {
   );
 };
 
-List.ListItem = ({ index, style, onClick, isSelected, data, dataKey }) => {
+function ListItem({ style, isSelected, children, data }) {
   return (
     <div
       style={style}
-      className={`cursor-pointer border-b border-gray-300 flex justify-center items-center ${
-        isSelected(index) && "bg-gray-200"
+      className={`border-b border-gray-300 flex justify-start ${
+        isSelected(!!data) && "bg-gray-200"
       }`}
-      onClick={() => onClick(index)}
     >
-      <List.NameCell index={index} style={{ width: "20%" }} data={data} />
-      {data[dataKey]}
+      {children({ data })}
     </div>
   );
-};
+}
+
+function Cell({ children, className, onClick }) {
+  return (
+    <div
+      className={`flex justify-center items-center text-xs ${className}`}
+      onClick={onClick}
+    >
+      {children}
+    </div>
+  );
+}
+
+List.ListItem = ListItem;
+List.Cell = Cell;
 
 export default List;
